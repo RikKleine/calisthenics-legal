@@ -11,17 +11,18 @@
     <nav><a href="index.html">Legal</a> · <a href="privacy-en.html">English</a></nav>
     <p class="eyebrow">Calisthenics Coach</p>
     <h1>Privacyverklaring</h1>
-    <p class="meta">Verwerkingsverantwoordelijke: Rik Kleine · Contact: <a href="mailto:rik.kleine@gmail.com">rik.kleine@gmail.com</a><br />Laatst bijgewerkt: 30 augustus 2026</p>
+    <p class="meta">Verwerkingsverantwoordelijke: Rik Kleine · Contact: <a href="mailto:rik.kleine@gmail.com">rik.kleine@gmail.com</a><br />Laatst bijgewerkt: 1 november 2026</p>
     <p>Deze verklaring beschrijft hoe Calisthenics Coach (“de app”) persoonsgegevens verwerkt, voor een aanbieder in Nederland onder de AVG. Dit is een werkversie voor publicatie in de store — laat een jurist meekijken voordat je er commercieel op leunt.</p>
 
     <h2>1. Wat de app doet</h2>
-    <p>Calisthenics Coach helpt je calisthenics-workouts te plannen en te loggen. Je kunt lokaal op het toestel werken. Een optioneel account geeft cloud-backup, sync en AI (workout genereren, skill-assessment, check-in).</p>
+    <p>Calisthenics Coach helpt je calisthenics-workouts te plannen en te loggen. Je kunt lokaal op het toestel werken. Een optioneel account geeft cloud-backup, sync en AI (workout genereren, skill-assessment, check-in, analyse van atleteninstructies). Optionele in-app aankopen vullen AI-workoutcredits bij via Google Play.</p>
 
     <h2>2. Welke gegevens</h2>
     <h3>Op je toestel (altijd)</h3>
     <ul>
-      <li>Workoutgeschiedenis, skillniveaus, baselines, atletennotities, apparatuur- en themavoorkeuren</li>
+      <li>Workoutgeschiedenis, skillniveaus, baselines, atleteninstructies (vrije tekst), apparatuur- en themavoorkeuren</li>
       <li>Optionele backupbestanden die jij zelf exporteert (bijvoorbeeld naar Downloads)</li>
+      <li>Optionele herinneringsvoorkeur bij dagen zonder gelogde workout</li>
     </ul>
     <p>Dit blijft op het toestel tot je inlogt en synchroniseert, of zelf een backup exporteert.</p>
     <h3>Als je een account maakt</h3>
@@ -29,16 +30,23 @@
       <li>E-mailadres en een wachtwoord bij Amazon Cognito (wij zien je wachtwoord niet)</li>
       <li>Een uniek account-id (<code>user_sub</code>)</li>
       <li>Bij Google-login: e-mail en naam/profiel zoals Google die doorgeeft, alleen om het account te maken of in te loggen</li>
+      <li>Een device-id bij AI-creditverzoeken, zodat een eenmalige welkomsttoekenning niet via meerdere accounts op dezelfde telefoon kan worden misbruikt</li>
     </ul>
     <h3>Cloud-backup / sync</h3>
-    <p>Een kopie van je trainingsexport in Amazon S3 onder je account-id, regio <strong>eu-west-1</strong> (Ierland).</p>
+    <p>Een kopie van je trainingsexport (workouts, skillniveaus, baselines, atleteninstructies, AI-gebruikssamenvatting) in Amazon S3 onder je account-id, regio <strong>eu-west-1</strong> (Ierland).</p>
     <h3>AI-functies</h3>
     <ul>
-      <li>De prompt naar het model (skills, niveaus, notities, recente workouts, apparatuur, sessiestijl)</li>
-      <li>Tokenverbruik om de dienst te draaien en te begrenzen</li>
+      <li>De prompt naar het model (skills, niveaus, atleteninstructies, recente workouts, apparatuur, sessiestijl)</li>
+      <li>Creditsaldo, verbruik en reserveringen om de dienst te draaien en te begrenzen</li>
       <li>Optionele kwaliteitsignalen: generatie-feedback, oefensuggesties, illustratiemeldingen</li>
     </ul>
-    <p>AI loopt via onze AWS-backend naar <strong>OpenAI</strong>. Zet geen namen, diagnoses of andere bijzondere gegevens in je notities.</p>
+    <p>AI loopt via onze AWS-backend naar <strong>OpenAI</strong>. Zet geen namen, diagnoses of andere bijzondere gegevens in je atleteninstructies.</p>
+    <h3>Als je workoutcredits koopt (Android)</h3>
+    <ul>
+      <li>Product-id, aankooptoken, packagenaam en (indien doorgegeven) order-id van Google Play, naar onze backend om de aankoop bij Google te verifiëren en credits één keer toe te kennen</li>
+      <li>Creditsaldo en aankoopkenmerken in Amazon DynamoDB (eu-west-1), gekoppeld aan je account-id (plus een aparte lookup op aankooptoken voor refunds/voids)</li>
+    </ul>
+    <p>Google verwerkt de betaling. Wij ontvangen <strong>geen</strong> volledig kaartnummer. We bewaren alleen wat nodig is om credits te leveren en Play-refunds/voids te respecteren.</p>
     <h3>Telemetry (als cloud aan staat)</h3>
     <p>Type, tijdstip en een kleine payload, in DynamoDB (eu-west-1), ongeveer <strong>1 jaar</strong> bewaard.</p>
     <p>Wij verkopen geen persoonsgegevens. Geen advertentie-SDK’s of cross-app tracking.</p>
@@ -48,7 +56,8 @@
       <thead><tr><th>Doel</th><th>Grondslag</th></tr></thead>
       <tbody>
         <tr><td>App, account, backup</td><td>Overeenkomst (art. 6 lid 1 b AVG)</td></tr>
-        <tr><td>AI en misbruik-/kostenlimieten</td><td>Overeenkomst en gerechtvaardigd belang (art. 6 lid 1 b en f)</td></tr>
+        <tr><td>AI, creditwallet en misbruik-/kostenlimieten</td><td>Overeenkomst en gerechtvaardigd belang (art. 6 lid 1 b en f)</td></tr>
+        <tr><td>Play-aankopen verifiëren en credits toekennen/intrekken</td><td>Overeenkomst (art. 6 lid 1 b); wettelijke plicht waar administratie of store-regels dat vragen (art. 6 lid 1 c)</td></tr>
         <tr><td>Kwaliteitssignalen</td><td>Gerechtvaardigd belang om de catalogus te verbeteren (art. 6 lid 1 f); je kunt je account wissen</td></tr>
         <tr><td>Wettelijke plichten</td><td>Wettelijke verplichting (art. 6 lid 1 c)</td></tr>
       </tbody>
@@ -57,9 +66,9 @@
 
     <h2>4. Verwerkers</h2>
     <ul>
-      <li><strong>Amazon Web Services</strong> (Ierland / eu-west-1): accounts, backups, jobs, telemetry</li>
+      <li><strong>Amazon Web Services</strong> (Ierland / eu-west-1): accounts, backups, jobs, telemetry, creditwallet</li>
       <li><strong>OpenAI</strong>: inhoud van AI-verzoeken en output; doorgifte buiten de EER via hun AVG-voorwaarden en SCC’s</li>
-      <li><strong>Google</strong> (alleen bij Continue with Google): authenticatie</li>
+      <li><strong>Google</strong>: authenticatie bij Continue with Google; Google Play Billing en de Android Publisher API bij credit-aankopen (verificatie)</li>
     </ul>
 
     <h2>5. Bewaartermijnen</h2>
@@ -68,6 +77,7 @@
       <li>Cloud-backups: tot je je account verwijdert, of wij de dienst stoppen</li>
       <li>AI-jobs: ongeveer 48 uur</li>
       <li>Telemetry: ongeveer 1 jaar</li>
+      <li>Creditwallet / aankooprijen: tot accountverwijdering (refund/void kan een tokenmarkering bewaren zodat dezelfde aankoop niet opnieuw wordt toegekend)</li>
       <li>Account (Cognito): tot verwijdering</li>
     </ul>
 
@@ -75,18 +85,22 @@
     <p>Inzage, rectificatie, wissing, beperking, dataportabiliteit en bezwaar. Je kunt:</p>
     <ul>
       <li>Een backup exporteren in de app</li>
-      <li><strong>Settings → Delete account</strong> gebruiken</li>
+      <li><strong>Instellingen → Delete account</strong> gebruiken (verwijdert cloud-backups, telemetry, credit-/quotarijen, Cognito-gebruiker en trainingsdata op dit toestel)</li>
       <li>Mailen naar <a href="mailto:rik.kleine@gmail.com">rik.kleine@gmail.com</a></li>
     </ul>
+    <p>Play-aankopen en terugbetalingen lopen via Google Play; ongebruikte credits zijn geen kasaldo bij ons, tenzij de store of de wet anders eist.</p>
     <p>Klacht: Autoriteit Persoonsgegevens.</p>
 
     <h2>7. Kinderen</h2>
     <p>Bedoeld voor <strong>16 jaar en ouder</strong>. Wij maken bewust geen accounts voor kinderen onder de 16.</p>
 
     <h2>8. Beveiliging</h2>
-    <p>Cloud-AI en backups vereisen inloggen. Release-builds bevatten geen OpenAI-sleutel. Geen systeem is waterdicht.</p>
+    <p>Cloud-AI, backups en credit-aankopen vereisen inloggen. Release-builds bevatten geen OpenAI-sleutel of Play service-accountgegevens. Geen systeem is waterdicht.</p>
 
-    <h2>9. Wijzigingen</h2>
+    <h2>9. Android-machtigingen</h2>
+    <p>Zie <strong>Instellingen → Legal → Permissions</strong>. We vragen alleen wat de functie nodig heeft (netwerk, meldingen/timer, billing voor creditpacks). Geen exacte alarmen, locatie, camera, microfoon of brede opslagtoegang.</p>
+
+    <h2>10. Wijzigingen</h2>
     <p>Bij wijzigingen passen we de datum hierboven aan. Ingrijpende wijzigingen vermelden we in de app of per e-mail als je een account hebt.</p>
   </main>
 </body>

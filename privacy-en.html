@@ -11,17 +11,18 @@
     <nav><a href="index.html">Legal</a> · <a href="privacy-nl.html">Nederlands</a></nav>
     <p class="eyebrow">Calisthenics Coach</p>
     <h1>Privacy Policy</h1>
-    <p class="meta">Controller: Rik Kleine · Contact: <a href="mailto:rik.kleine@gmail.com">rik.kleine@gmail.com</a><br />Last updated: 30 August 2026</p>
+    <p class="meta">Controller: Rik Kleine · Contact: <a href="mailto:rik.kleine@gmail.com">rik.kleine@gmail.com</a><br />Last updated: 1 November 2026</p>
     <p>This policy describes how Calisthenics Coach (“the app”) processes personal data. It is written for a Netherlands-based operator under the GDPR (AVG). It is a working draft for store submission — have a lawyer review it before you rely on it commercially.</p>
 
     <h2>1. What the app does</h2>
-    <p>Calisthenics Coach is a training app for planning and logging calisthenics workouts. You can use it locally on your device. An optional account enables cloud backup, sync, and AI features (workout generation, skill assessment, session check-in).</p>
+    <p>Calisthenics Coach is a training app for planning and logging calisthenics workouts. You can use it locally on your device. An optional account enables cloud backup, sync, and AI features (workout generation, skill assessment, session check-in, athlete-instructions analysis). Optional in-app purchases top up AI workout credits via Google Play.</p>
 
     <h2>2. Data we process</h2>
     <h3>On your device (always)</h3>
     <ul>
-      <li>Workout history, skill levels, baselines, athlete notes, equipment and theme preferences</li>
+      <li>Workout history, skill levels, baselines, athlete instructions (free-text preferences), equipment and theme preferences</li>
       <li>Optional local backup files you export (for example to Downloads)</li>
+      <li>Optional reminder preference for days without a logged workout</li>
     </ul>
     <p>This stays on the device unless you sign in and sync, or you export a backup yourself.</p>
     <h3>If you create an account</h3>
@@ -29,16 +30,23 @@
       <li>Email address and a password stored by Amazon Cognito (we do not see your password)</li>
       <li>A unique account id (<code>user_sub</code>)</li>
       <li>If you use Google Sign-In: email and name/profile as provided by Google, used only to create or sign in to your account</li>
+      <li>A device id we send with AI credit requests so a one-time welcome credit grant cannot be farmed across many accounts on the same phone</li>
     </ul>
     <h3>If you use cloud backup / sync</h3>
-    <p>A copy of your training export (workouts, skill levels, baselines, notes, AI usage summary) in Amazon S3, stored under your account id in AWS region <strong>eu-west-1</strong> (Ireland).</p>
+    <p>A copy of your training export (workouts, skill levels, baselines, athlete instructions, AI usage summary) in Amazon S3, stored under your account id in AWS region <strong>eu-west-1</strong> (Ireland).</p>
     <h3>If you use AI features</h3>
     <ul>
-      <li>The prompt we send to the model (selected skills, levels, notes, recent workout context, equipment, session style)</li>
-      <li>Token usage needed to run and limit the service</li>
+      <li>The prompt we send to the model (selected skills, levels, athlete instructions, recent workout context, equipment, session style)</li>
+      <li>Credit balance, spend, and reservation records needed to run and limit the service</li>
       <li>Optional quality signals: generation feedback, suggested exercises, illustration reports</li>
     </ul>
-    <p>AI requests go through our backend in AWS to <strong>OpenAI</strong>. Do not put names, health diagnoses, or other sensitive information in athlete notes.</p>
+    <p>AI requests go through our backend in AWS to <strong>OpenAI</strong>. Do not put names, health diagnoses, or other sensitive information in athlete instructions.</p>
+    <h3>If you buy workout credits (Android)</h3>
+    <ul>
+      <li>Product id, purchase token, package name, and (when provided) order id from Google Play, sent to our backend so we can verify the purchase with Google and grant credits once</li>
+      <li>Credit balance and purchase-fulfilment markers stored in Amazon DynamoDB (eu-west-1), keyed by your account id (and a separate lookup by purchase token for refunds/voids)</li>
+    </ul>
+    <p>Google processes the payment. We do <strong>not</strong> receive your full card number. We store only what we need to deliver credits and honour Play refunds/voids.</p>
     <h3>Telemetry (when cloud is enabled)</h3>
     <ul>
       <li>Event type, time, and a small payload (for example AI usage, a suggested exercise name)</li>
@@ -51,7 +59,8 @@
       <thead><tr><th>Purpose</th><th>Legal basis</th></tr></thead>
       <tbody>
         <tr><td>Provide the app, account, and backup</td><td>Contract (Art. 6(1)(b) GDPR)</td></tr>
-        <tr><td>AI generation and abuse/cost limits</td><td>Contract and legitimate interest in running a viable service (Art. 6(1)(b) and (f))</td></tr>
+        <tr><td>AI generation, credit wallet, and abuse/cost limits</td><td>Contract and legitimate interest in running a viable service (Art. 6(1)(b) and (f))</td></tr>
+        <tr><td>Verify Play purchases and grant/revoke credits</td><td>Contract (Art. 6(1)(b)); legal obligation where tax or store rules require records (Art. 6(1)(c))</td></tr>
         <tr><td>Product quality events (gaps, proposals, illustration reports)</td><td>Legitimate interest in improving the catalog (Art. 6(1)(f)); you can delete your account</td></tr>
         <tr><td>Legal obligations (for example tax or security incidents)</td><td>Legal obligation (Art. 6(1)(c))</td></tr>
       </tbody>
@@ -60,9 +69,9 @@
 
     <h2>4. Who else sees data (processors)</h2>
     <ul>
-      <li><strong>Amazon Web Services</strong> (Ireland / eu-west-1): accounts, backups, jobs, telemetry</li>
+      <li><strong>Amazon Web Services</strong> (Ireland / eu-west-1): accounts, backups, jobs, telemetry, credit wallet</li>
       <li><strong>OpenAI</strong>: content of AI requests and model output. OpenAI is a processor/sub-processor outside the EEA; transfers rely on their current GDPR terms and Standard Contractual Clauses.</li>
-      <li><strong>Google</strong> (only if you tap Continue with Google): authentication</li>
+      <li><strong>Google</strong>: authentication if you tap Continue with Google; Google Play Billing and the Android Publisher API if you buy credits (purchase verification)</li>
     </ul>
 
     <h2>5. How long we keep data</h2>
@@ -71,6 +80,7 @@
       <li>Cloud backups: until you delete them by deleting your account, or we close the service</li>
       <li>AI jobs: about 48 hours</li>
       <li>Telemetry: about 1 year</li>
+      <li>Credit wallet / purchase fulfilment rows: until you delete the account (refund/void handling may keep a token marker so the same purchase cannot be re-granted)</li>
       <li>Account (Cognito): until you delete the account</li>
     </ul>
 
@@ -78,19 +88,20 @@
     <p>You may request access, correction, deletion, restriction, portability, and object to legitimate-interest processing. You can:</p>
     <ul>
       <li>Export a backup from the app</li>
-      <li>Delete the account in <strong>Settings → Delete account</strong> (removes cloud backups, telemetry, quota rows, and the Cognito user, and clears training data on that device)</li>
+      <li>Delete the account in <strong>Settings → Delete account</strong> (removes cloud backups, telemetry, credit/quota rows, and the Cognito user, and clears training data on that device)</li>
       <li>Email <a href="mailto:rik.kleine@gmail.com">rik.kleine@gmail.com</a></li>
     </ul>
+    <p>Play purchases and refunds are handled in Google Play; unused credits are not a cash balance with us unless the store or the law requires otherwise.</p>
     <p>You may complain to the Dutch DPA (Autoriteit Persoonsgegevens).</p>
 
     <h2>7. Children</h2>
     <p>The app is intended for people <strong>16 or older</strong>. We do not knowingly create accounts for children under 16.</p>
 
     <h2>8. Security</h2>
-    <p>Access to cloud AI and backups requires a signed-in account. Backups are stored per account id. Release builds do not embed an OpenAI API key. No method is perfectly secure.</p>
+    <p>Access to cloud AI, backups, and credit purchases requires a signed-in account. Backups are stored per account id. Release builds do not embed an OpenAI API key or Play service-account credentials. No method is perfectly secure.</p>
 
     <h2>9. Android permissions</h2>
-    <p>We only request what the feature needs (network, notifications/timer, optional storage for your own backup files). Details are in the in-app Permissions note.</p>
+    <p>See <strong>Settings → Legal → Permissions</strong>. We only request what the feature needs (network, notifications/timer, billing for credit packs). We do not request exact alarms, location, camera, microphone, or broad storage access.</p>
 
     <h2>10. Changes</h2>
     <p>We will update the “Last updated” date when this policy changes. Material changes will be pointed out in the app or by email if you have an account.</p>
